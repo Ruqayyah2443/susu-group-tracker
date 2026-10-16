@@ -1,0 +1,18 @@
+{
+  "name": "susu-group-tracker",
+  "version": "1.0.0",
+  "description": "Rotating savings group (susu) manager",
+  "type": "module",
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "susu",
+    "savings",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC"
+  
+}
