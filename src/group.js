@@ -7,11 +7,11 @@ export class SusuGroup {
       if (amount <= 0) {
         throw new SusuError('Weekly contribution must be a positive amount')
       }
-      this.weeklyContribution = amount
+      this.weeklyAmount = amount
       this.members = []
-      this.currentWeek = 1
+      this.week = 1
       this.paidThisWeek = new Map()
-      this.paidPayout = []
+      this.payouts = []
 
     }
 
@@ -96,6 +96,22 @@ export class SusuGroup {
         for (const m of this.members) this.paidThisWeek.set(m.key, 0);
         }
         return { closed: true, payout, complete: this.isComplete };
+    }
+
+    report() {
+        const owing = this.owing();
+        const owingNames = new Set(owing.map((o) => o.name));
+        return {
+        week: this.week,
+        complete: this.isComplete,
+        weeklyAmount: formatMoney(this.weeklyAmount),
+        nextRecipient: this.isComplete
+            ? null
+            : this.members[this.payouts.length]?.name ?? null,
+        paidInFull: this.members.filter((m) => !owingNames.has(m.name)).map((m) => m.name),
+        owing,
+        payouts: this.payouts.map((p) => ({ ...p })),
+        };
     }
 
 }
